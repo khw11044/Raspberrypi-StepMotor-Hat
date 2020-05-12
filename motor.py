@@ -263,7 +263,7 @@ if __name__ == "__main__":
                 elif ch == "a":
                     s.left()
                 elif ch == "d":
-                    s.left()
+                    s.right()
                 elif ch == "\n":
                     print('sdsdsdsdsd')
 
