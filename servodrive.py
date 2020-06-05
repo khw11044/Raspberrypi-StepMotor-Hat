@@ -55,23 +55,23 @@ class ServoMotor():
     """
     def __init__(self):
         self.pwm = Adafruit_PCA9685.PCA9685()
-        self.servo_min = 50  # Min pulse length out of 4096
-        self.servo_max = 1000  # Max pulse length out of 4096
-        self.pwm.set_pwm_freq(100)
-        self.pulse = 700
+        self.servo_min = 5  # Min pulse length out of 4096
+        self.servo_max = 600  # Max pulse length out of 4096
+        self.pwm.set_pwm_freq(10)
+        self.pulse = 580
         #self.p.ChangeDutyCycle(5.5)
         
         
     
     def right(self):
-        pwm.set_pwm(0, 0, 5)
-        time.sleep(0.03)
+        pwm.set_pwm(0, 0, 391) #389
+        time.sleep(0.01)
         #pwm.set_pwm(0, 0, 0)
         print("right")
         
     def left(self):
-        pwm.set_pwm(0, 0, 1000)
-        time.sleep(0.03)
+        pwm.set_pwm(0, 0, 400) #399
+        time.sleep(0.01)
         #pwm.set_pwm(0, 0, 0)
         print("left")
         
@@ -81,7 +81,7 @@ class ServoMotor():
         print("stop")
         
     def up(self):
-        self.pulse -= 10
+        self.pulse -= 6
         self.pwm.set_pwm(1, 0, self.pulse)
         time.sleep(0.01)
         print("up")
@@ -90,13 +90,13 @@ class ServoMotor():
             self.pulse = 200
         
     def down(self):
-        self.pulse += 10
+        self.pulse += 6
         self.pwm.set_pwm(1, 0, self.pulse)
         time.sleep(0.01)
         print("down")
         print(self.pulse)
-        if self.pulse > 900:
-            self.pulse = 900
+        if self.pulse > 700:
+            self.pulse = 700
      
     
 if __name__ == "__main__":
