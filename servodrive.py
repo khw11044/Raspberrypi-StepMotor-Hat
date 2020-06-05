@@ -1,6 +1,12 @@
-import contextlib
-from __future__ import division
+
 import time
+import atexit
+import sys
+import termios
+import contextlib
+import threading
+import imutils
+import RPi.GPIO as GPIO
 
 # Import the PCA9685 module.
 import Adafruit_PCA9685
@@ -49,22 +55,24 @@ class ServoMotor():
     """
     def __init__(self):
         self.pwm = Adafruit_PCA9685.PCA9685()
-        self.servo_min = 150  # Min pulse length out of 4096
-        self.servo_max = 600  # Max pulse length out of 4096
-        self.pwm.set_pwm_freq(60)
-        self.pulse = 150
+        self.servo_min = 50  # Min pulse length out of 4096
+        self.servo_max = 1000  # Max pulse length out of 4096
+        self.pwm.set_pwm_freq(100)
+        self.pulse = 700
         #self.p.ChangeDutyCycle(5.5)
         
         
     
     def right(self):
-        pwm.set_pwm(0, 0, 200)
-        time.sleep(0.5)
+        pwm.set_pwm(0, 0, 5)
+        time.sleep(0.03)
+        #pwm.set_pwm(0, 0, 0)
         print("right")
         
     def left(self):
-        pwm.set_pwm(0, 0, 100)
-        time.sleep(0.5)
+        pwm.set_pwm(0, 0, 1000)
+        time.sleep(0.03)
+        #pwm.set_pwm(0, 0, 0)
         print("left")
         
     def stop(self):
@@ -73,16 +81,22 @@ class ServoMotor():
         print("stop")
         
     def up(self):
-        self.pulse += 3
+        self.pulse -= 10
         self.pwm.set_pwm(1, 0, self.pulse)
-        time.sleep(0.5)
+        time.sleep(0.01)
         print("up")
+        print(self.pulse)
+        if self.pulse < 200:
+            self.pulse = 200
         
     def down(self):
-        self.pulse -= 3
+        self.pulse += 10
         self.pwm.set_pwm(1, 0, self.pulse)
-        time.sleep(0.5)
+        time.sleep(0.01)
         print("down")
+        print(self.pulse)
+        if self.pulse > 900:
+            self.pulse = 900
      
     
 if __name__ == "__main__":
@@ -98,6 +112,7 @@ if __name__ == "__main__":
     with raw_mode(sys.stdin):
         try:
             while True:
+                
                 ch = sys.stdin.read(1)
                 if not ch or ch == "q":
                     break
@@ -118,6 +133,9 @@ if __name__ == "__main__":
         except (KeyboardInterrupt, EOFError):
             pass
         
+
+
+
 
 
 
